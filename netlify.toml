@@ -13,7 +13,10 @@ package = "./netlify/plugins/cache-profile-images"
 
 [[plugins]]
 package = "/netlify/plugins/cache-social"
-  
+
+[[plugins]]
+  package = "./netlify/plugins/cache-events"
+
 # Cache assets
 [[headers]]
   for = "/_generated-og/*"

@@ -7,6 +7,13 @@ let eventsCache = null;
 let eventsCacheTimestamp = null;
 const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
+// Persisted across Netlify builds via the cache-events build plugin, so a
+// build-time fetch that gets blocked (e.g. Cloudflare flagging the build
+// server's IP) falls back to the last successfully fetched events instead
+// of wiping the events section until the next successful build.
+const LAST_GOOD_CACHE_DIR = '.netlify/cache/events-data';
+const LAST_GOOD_CACHE_FILE = `${LAST_GOOD_CACHE_DIR}/events.json`;
+
 export async function eventsQuery() {
   // Return cached data if it exists and is still valid
   if (eventsCache && eventsCacheTimestamp && (Date.now() - eventsCacheTimestamp < CACHE_DURATION)) {
@@ -28,13 +35,12 @@ export async function eventsQuery() {
 
     if (!response.ok) {
       console.warn('Events API returned non-200 status:', response.status);
-      return await devFallbackEvents();
+      return await fallbackEvents();
     }
 
     let data = await response.json();
     if (!Array.isArray(data) || data.length === 0) {
-      data = await devFallbackEvents();
-      if (data.length === 0) return [];
+      return await fallbackEvents();
     }
     const truncatedData = await Promise.all(data.map(async (event) => {
       let imageUrl = event.styled_images?.event_feature_large || "/social/default-event.jpg";
@@ -59,14 +65,45 @@ export async function eventsQuery() {
       };
     }));
 
-    // Update cache
+    // Update in-memory cache
     eventsCache = truncatedData;
     eventsCacheTimestamp = Date.now();
+
+    await writeLastGoodEvents(truncatedData);
 
     return truncatedData;
   } catch (error) {
     console.error('Error fetching events:', error);
-    return await devFallbackEvents();
+    return await fallbackEvents();
+  }
+}
+
+async function fallbackEvents() {
+  const lastGood = await readLastGoodEvents();
+  if (lastGood && lastGood.length > 0) {
+    console.warn('Live events feed unavailable, using last known-good events from build cache');
+    return lastGood;
+  }
+  return await devFallbackEvents();
+}
+
+async function readLastGoodEvents() {
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const raw = JSON.parse(await readFile(LAST_GOOD_CACHE_FILE, 'utf8'));
+    return Array.isArray(raw) ? raw : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeLastGoodEvents(data) {
+  try {
+    const { writeFile, mkdir } = await import('node:fs/promises');
+    await mkdir(LAST_GOOD_CACHE_DIR, { recursive: true });
+    await writeFile(LAST_GOOD_CACHE_FILE, JSON.stringify(data), 'utf8');
+  } catch (error) {
+    console.warn('Could not persist last known-good events:', error);
   }
 }
 
