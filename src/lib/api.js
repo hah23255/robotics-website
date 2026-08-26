@@ -84,7 +84,30 @@ async function fallbackEvents() {
     console.warn('Live events feed unavailable, using last known-good events from build cache');
     return lastGood;
   }
+
+  // Committed bootstrap seed: covers the case where the persisted build
+  // cache hasn't been seeded yet (e.g. no build has succeeded fetching
+  // live data since this fallback mechanism was added). Manually refresh
+  // this file's contents periodically since it will otherwise go stale.
+  const seed = await readEventsSeed();
+  if (seed && seed.length > 0) {
+    console.warn('Live events feed unavailable and no build cache found, using committed events seed');
+    return seed;
+  }
+
   return await devFallbackEvents();
+}
+
+async function readEventsSeed() {
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const { fileURLToPath } = await import('node:url');
+    const seedPath = fileURLToPath(new URL('./events-seed.json', import.meta.url));
+    const seed = JSON.parse(await readFile(seedPath, 'utf8'));
+    return Array.isArray(seed) ? seed : null;
+  } catch {
+    return null;
+  }
 }
 
 async function readLastGoodEvents() {

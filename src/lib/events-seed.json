@@ -1,0 +1,98 @@
+[
+  {
+    "id": "150781-21910169",
+    "datetime_modified": "20260824T112157",
+    "datetime_start": "20260828T100000",
+    "datetime_end": "20260828T120000",
+    "has_end_time": 1,
+    "date_start": "2026-08-28",
+    "date_end": "2026-08-28",
+    "time_start": "10:00:00",
+    "time_end": "12:00:00",
+    "time_zone": "America/Detroit",
+    "event_title": "Human-Robot Shared Planning and Control Through Two-Way Haptic Communication",
+    "occurrence_title": "",
+    "combined_title": "Human-Robot Shared Planning and Control Through Two-Way Haptic Communication: Robotics PhD Defense, Hannah Baez",
+    "event_subtitle": "Robotics PhD Defense, Hannah Baez",
+    "event_type": "Presentation",
+    "event_type_id": "16",
+    "description": "Co-chairs: Brent Gillespie and Nadine Sarter\n\nAbstract:\nAs semi-autonomous vehicles enter widespread use, their designs still depend on a human supervisor as the ultimate guarantor of safety, yet that...",
+    "occurrence_notes": "and on Google Meet",
+    "guid": "150781-21910169@events.umich.edu",
+    "permalink": "http://events.umich.edu/event/150781",
+    "building_id": "1005418",
+    "building_name": "Ford Robotics Building",
+    "building_official_id": 1005418,
+    "campus_maps_id": "647",
+    "campus_maps_link_path": "ford-robotics-building",
+    "campus_maps_link": "https://maps.studentlife.umich.edu/building/ford-robotics-building",
+    "room": "2300",
+    "location_name": "Ford Robotics Building",
+    "has_livestream": 0,
+    "cost": "",
+    "tags": ["Robotics"],
+    "website": "https://meet.google.com/vto-ggrt-vxy",
+    "links": [
+      { "type": "livestream", "url": "https://meet.google.com/vto-ggrt-vxy", "title": "Google Meet" }
+    ],
+    "sponsors": [
+      { "group_name": "Michigan Robotics", "group_id": "3998", "website": "" }
+    ],
+    "image_url": "https://events.umich.edu/media/attachments/2026/08/event_150781_original-1.jpg",
+    "image_description": "Hannah tests out a steering wheel with hands on its haptic feedback sensors while driving in a lab looking at the monitor.",
+    "styled_images": {
+      "event_feature_large": "/social/default-event.jpg"
+    },
+    "qr_code_url": "http://events.umich.edu/event/150781/qrcode.png",
+    "occurrence_count": 1,
+    "first_occurrence": 21910169
+  },
+  {
+    "id": "150676-21909888",
+    "datetime_modified": "20260821T090155",
+    "datetime_start": "20260910T173000",
+    "datetime_end": "20260910T190000",
+    "has_end_time": 1,
+    "date_start": "2026-09-10",
+    "date_end": "2026-09-10",
+    "time_start": "17:30:00",
+    "time_end": "19:00:00",
+    "time_zone": "America/Detroit",
+    "event_title": "Robotics Undergraduate Community Meeting",
+    "occurrence_title": "",
+    "combined_title": "Robotics Undergraduate Community Meeting",
+    "event_subtitle": "",
+    "event_type": "Rally / Mass Meeting",
+    "event_type_id": "9",
+    "description": "Kick Off the School Year with Michigan Robotics! 🤖\n\nStart the year with the Michigan Robotics community! Join Robotics faculty, staff, fellow undergraduate majors, and students interested in Robotics...",
+    "occurrence_notes": null,
+    "guid": "150676-21909888@events.umich.edu",
+    "permalink": "http://events.umich.edu/event/150676",
+    "building_id": "1005418",
+    "building_name": "Ford Robotics Building",
+    "building_official_id": 1005418,
+    "campus_maps_id": "647",
+    "campus_maps_link_path": "ford-robotics-building",
+    "campus_maps_link": "https://maps.studentlife.umich.edu/building/ford-robotics-building",
+    "room": "1050",
+    "location_name": "Ford Robotics Building",
+    "has_livestream": 0,
+    "cost": "",
+    "tags": ["Engineering", "Michigan Robotics", "Robotics", "Undergraduate"],
+    "website": "https://sessions.studentlife.umich.edu/track/event/session/112590",
+    "links": [
+      { "type": "other", "url": "https://sessions.studentlife.umich.edu/track/event/session/112590", "title": "RSVP Form" }
+    ],
+    "sponsors": [
+      { "group_name": "Michigan Robotics", "group_id": "3998", "website": "" }
+    ],
+    "image_url": "",
+    "image_description": "",
+    "styled_images": {
+      "event_feature_large": "/social/default-event.jpg"
+    },
+    "qr_code_url": "http://events.umich.edu/event/150676/qrcode.png",
+    "occurrence_count": 1,
+    "first_occurrence": 21909888
+  }
+]
