@@ -24,11 +24,22 @@ export async function eventsQuery() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
+    // UMich ITS: events.umich.edu sits behind Cloudflare, which flags
+    // datacenter/build-server IPs as bots regardless of headers like
+    // User-Agent. This header is a per-site bypass token they issued for
+    // our integration (ITS service request, 2026-08-26) — set as a Netlify
+    // env var rather than committed here since it's effectively a secret.
+    const eventsHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    };
+    const integrationToken = process.env.UMICH_EVENTS_INTEGRATION_TOKEN;
+    if (integrationToken) {
+      eventsHeaders['x-umich-integration'] = `${integrationToken} https://robotics.umich.edu`;
+    }
+
     const response = await fetch('https://events.umich.edu/group/3998/json?filter=show:new&v=2', {
       signal: controller.signal,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
+      headers: eventsHeaders
     });
 
     clearTimeout(timeoutId);
