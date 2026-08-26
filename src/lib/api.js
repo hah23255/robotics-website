@@ -18,7 +18,10 @@ export async function eventsQuery() {
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
     const response = await fetch('https://events.umich.edu/group/3998/json?filter=show:new&v=2', {
-      signal: controller.signal
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
     });
 
     clearTimeout(timeoutId);
