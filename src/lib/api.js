@@ -101,9 +101,11 @@ async function fallbackEvents() {
 async function readEventsSeed() {
   try {
     const { readFile } = await import('node:fs/promises');
-    const { fileURLToPath } = await import('node:url');
-    const seedPath = fileURLToPath(new URL('./events-seed.json', import.meta.url));
-    const seed = JSON.parse(await readFile(seedPath, 'utf8'));
+    // Resolved against the build's working directory (repo root), not
+    // import.meta.url: Astro bundles this module into dist/.prerender/chunks
+    // at build time, so an import.meta.url-relative path silently points at
+    // a file that doesn't exist there.
+    const seed = JSON.parse(await readFile('src/lib/events-seed.json', 'utf8'));
     return Array.isArray(seed) ? seed : null;
   } catch {
     return null;
