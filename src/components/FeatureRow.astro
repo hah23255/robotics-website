@@ -1,0 +1,113 @@
+---
+// FeatureRow.astro - Magazine-style alternating feature row for showcase pages.
+// Media column (image or branded gradient placeholder) beside a body column with
+// a display headline over the formal title and link pills. `areas` still tags
+// the card with data-areas for FocusFilter to match against; it just isn't
+// rendered as visible chips.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;                             // formal title (e.g. full paper title)
+  headline?: string;                         // short display headline; title alone if omitted
+  areas?: string[];                          // focus-area slugs, matched by FocusFilter
+  image?: ImageMetadata;                     // teaser image; branded gradient placeholder if omitted
+  imageAlt?: string;
+  mediaLabel?: string;                       // small caption shown over the placeholder gradient
+  flip?: boolean;                            // media on the right instead of the left
+  links?: { label: string; href: string }[]; // rendered as underlined link list
+  id?: string;
+}
+
+const {
+  title,
+  headline,
+  areas = [],
+  image,
+  imageAlt = '',
+  mediaLabel,
+  flip = false,
+  links = [],
+  id,
+} = Astro.props;
+
+const gridColsClass = flip ? 'md:grid-cols-[7fr_5fr]' : 'md:grid-cols-[5fr_7fr]';
+---
+
+<article
+  id={id}
+  data-areas={areas.length > 0 ? areas.join(' ') : undefined}
+  class:list={[
+    'not-prose grid grid-cols-1 overflow-hidden rounded mb-16',
+    'bg-white dark:bg-[color-mix(in_srgb,var(--color-arboretumBlue)_25%,#111827)]',
+    'shadow-[0_1px_3px_rgba(0,39,76,0.08),0_8px_24px_rgba(0,39,76,0.07)]',
+    'dark:shadow-[0_1px_3px_rgba(0,0,0,0.4),0_8px_24px_rgba(0,0,0,0.35)]',
+    'md:items-stretch',
+    gridColsClass,
+    // Break out of the article column (max-w-4xl) to a wider, still-centered
+    // band on wide viewports. The 5rem buffer keeps it clear of the viewport
+    // edge and scrollbar so the page never scrolls horizontally.
+    'min-[1200px]:relative min-[1200px]:left-1/2 min-[1200px]:-translate-x-1/2',
+    'min-[1200px]:w-[min(72rem,calc(100vw-5rem))]',
+  ]}
+>
+  <div class:list={['relative min-h-44 self-stretch', { 'md:order-2': flip }]}>
+    {image ? (
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 767px) 100vw, 42vw"
+        class="block h-full w-full m-0 rounded-none shadow-none object-cover"
+      />
+    ) : (
+      <div
+        class:list={[
+          'flex h-full min-h-44 w-full items-end p-4',
+          'bg-linear-to-br from-umichblue via-arboretumBlue to-taubmanTeal',
+          flip
+            ? 'border-b-4 border-maize md:border-b-0 md:border-l-4'
+            : 'border-b-4 border-maize md:border-b-0 md:border-r-4',
+        ]}
+      >
+        {mediaLabel && (
+          <span class="rounded-sm bg-black/45 px-3 py-1 text-xs font-bold text-white">{mediaLabel}</span>
+        )}
+      </div>
+    )}
+  </div>
+  <div class="flex flex-col items-start px-6 pt-[1.4rem] pb-6">
+    {headline ? (
+      <>
+        <h3 class="text-balance mb-1 text-2xl leading-tight font-bold text-umichblue dark:text-neutral-100">
+          {headline}
+        </h3>
+        <div class="mt-2 mb-5 h-0 w-10 border-t-4 border-maize"></div>
+        <p class="mb-6 leading-snug text-gray-800 dark:text-gray-200">
+          {title}
+        </p>
+      </>
+    ) : (
+      <h3 class="text-balance mb-3 text-2xl leading-tight font-bold text-umichblue dark:text-neutral-100">
+        {title}
+      </h3>
+    )}
+    <div class="text-[0.95rem] leading-[1.65] [&_p]:mb-3 [&_p:last-child]:mb-0">
+      <slot />
+    </div>
+    {links.length > 0 && (
+      <div class="mt-auto flex flex-wrap gap-1 gap-x-5 pt-2 text-[0.95rem]">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

@@ -1,0 +1,24 @@
+---
+// TimelineDay.astro - One day (or day range) on a Timeline; holds TimelineItem cards
+interface Props {
+  day: string;  // e.g. "Sun" or "Mon–Wed"
+  date: string; // e.g. "Sep 27"
+}
+const { day, date } = Astro.props;
+---
+
+<div class="tl-day relative mb-8">
+  <div
+    class="absolute left-[-1.86rem] top-[0.3rem] box-content h-[0.8rem] w-[0.8rem] rounded-full border-[3px] border-maize bg-umichblue md:left-[-2.6rem]"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="mb-2 font-bold text-umichblue md:absolute md:-left-30 md:top-[0.1rem] md:mb-0 md:w-17 md:text-right md:leading-[1.3] dark:text-gray-200"
+  >
+    <span class="text-sm md:block">{day}</span>
+    <span class="ml-1 text-xs text-[#5a6b80] md:ml-0 md:block dark:text-gray-400">{date}</span>
+  </div>
+  <div class="tl-cards">
+    <slot />
+  </div>
+</div>

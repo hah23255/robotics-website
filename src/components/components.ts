@@ -23,6 +23,11 @@ import Callout from '../components/Callout.astro';
 import YouTubeGallery from '../components/YouTubeGallery.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import PageSearch from '../components/PageSearch.astro';
+import Timeline from '../components/Timeline.astro';
+import TimelineDay from '../components/TimelineDay.astro';
+import TimelineItem from '../components/TimelineItem.astro';
+import FeatureRow from '../components/FeatureRow.astro';
+import LocalTip from '../components/LocalTip.astro';
 
 export const components = {
   Button,
@@ -49,7 +54,12 @@ export const components = {
   Callout,
   YouTubeGallery,
   TableOfContents,
-  PageSearch
+  PageSearch,
+  Timeline,
+  TimelineDay,
+  TimelineItem,
+  FeatureRow,
+  LocalTip
 };
 
 
